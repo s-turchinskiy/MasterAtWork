@@ -1,0 +1,116 @@
+﻿@model List<WebEmployees.DepartmentNotModel>
+
+@{
+    ViewBag.Title = "Виды работ";
+
+}
+
+<div id="modDialog" class="modal fade">
+    <div id="dialogContent" class="modal-dialog"></div>
+</div>
+
+<div id="HauptDiv" ng-app="MyApp" class="container-fluid">
+    <div ng-controller="homeCtrl">
+        <div class="fixed-table-toolbar">
+            <div class="bs-bars pull-left">
+                <div id="toolbar" class="btn-group">
+                    <button type="button" class="btn btn-default">
+                        <i class="glyphicon glyphicon-plus"> Добавить</i>
+                    </button>
+                    <button type="button" class="btn btn-default">
+                        <i class="glyphicon glyphicon-trash"> Удалить</i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <table ref="entry-grid" id="entry-grid" class="table table-hover table-no-bordered"
+               data-unique-id="idWorkTypes"
+               data-show-columns="true"
+               data-search="true"
+               data-filter-control="true"
+               data-click-to-select="true"
+               data-show-header="true">
+            <thead class='header' style="display:none">
+                <tr>
+                    <th data-field="state" data-checkbox="true"></th>
+                    <th data-field="name" data-search="true" data-sortable="true">Наименование</th>
+                </tr>
+            </thead>
+        </table>
+    </div>
+</div>
+
+
+@section Scripts{
+    <script type="text/javascript">
+
+        var $table = $('#entry-grid');
+        $table.on('click', 'td', function (e) {
+            e.preventDefault();
+
+            var idElementAsString = $(this).closest('tr').data('uniqueid');
+            $.get(applicationPath + "Home/WorktypeDetails/", {
+                idWorktypesAsString: idElementAsString
+            }, function (data) {
+                $('#dialogContent').html(data);
+                $('#modDialog').modal('show');
+            });
+        });
+
+        //нажатие на кнопку добавить
+        $('.glyphicon-plus').on('click', function (e) {
+            e.preventDefault();
+
+            $.get(applicationPath + "Home/WorktypeDetails/", {
+                idWorktypesAsString: null
+            }, function (data) {
+                $('#dialogContent').html(data);
+                $('#modDialog').modal('show');
+            });
+        });
+
+        //удаление
+        $(function () {
+            $('.glyphicon-trash').click(function () {
+                var ids = $.map($table.bootstrapTable('getSelections'), function (row) {
+                    return row.idWorkTypes;
+                });
+
+                $.get(applicationPath + "Home/RemoveElement/", {
+                    elementType: "worktypes",
+                    idElementAsString: JSON.stringify(ids),
+                }, function (removeResult) {
+                    if (removeResult = "True") {
+                        $table.bootstrapTable('remove', {
+                            field: 'idWorkTypes',
+                            values: ids
+                        });
+                    }
+                });
+            });
+        });
+
+        $(document).ready(function () {
+            applicationPath = "@(Request.ApplicationPath == "/" ? "/" : Request.ApplicationPath + "/")";
+            $.ajax({
+                url: applicationPath + "Home/GetWorktypes",
+                type: "POST",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                data: "{binaryString}",
+                processData: false,
+                success: function (data) {
+                    var template = $('#user-template').html();
+
+                    $('#entry-grid').bootstrapTable({
+                        data: data
+                    });
+                },
+                error: function (result) {
+                    alert("Ошибка получения данных");
+                }
+            });
+        })
+
+    </script>
+}

@@ -1,0 +1,168 @@
+﻿@model WebEmployees.orders
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="modal-content">
+        <div class="modal-header">
+            <button class="close" data-dismiss="modal" area-hidden="true">X</button>
+            <h4>Заказ</h4>
+        </div>
+        <div class="modal-body">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-3 col-md-3">
+                        <label class="control-label" for="inputWarning">Номер</label>
+                        <div>
+                            @Html.TextBoxFor(m => m.orderNumber, new { @class = "form-control", id = "orderNumber", placeholder = "Номер", type = "text", disabled = "disabled" })
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-3">
+                        <label>Дата</label>
+                        <div>
+                            @Html.TextBoxFor(m => m.formationDate, new { @class = "form-control", placeholder = "Дата", type = "text", disabled = "disabled" })
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6">
+                        <label>Статус</label>
+                        <div>
+                            @Html.DropDownListFor(model => model.status, (SelectList) ViewBag.Statuses, "", new { @class = "form-control" })
+                        </div>
+                    </div>
+                </div>
+
+                <br />
+
+                <div class="row">
+                    <div class="col-lg-6 col-md-6">
+                        <label>Вид работы</label>
+                        <div>
+                            @Html.DropDownListFor(model => model.workType, (SelectList) ViewBag.WorkTypes, "", new { @class = "form-control" })
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6">
+                        <label>Начальная сумма</label>
+                        <div>
+                            @Html.TextBoxFor(m => m.InitialAmount, new { @class = "form-control", placeholder = "Начальная сумма", type = "number" })
+                        </div>
+                    </div>
+                </div>
+
+                <br />
+
+                <div class="row">
+                    <div class="col-lg-6 col-md-6">
+                        <label>Клиент</label>
+                        <div>
+                            @Html.DropDownListFor(model => model.Customer, (SelectList) ViewBag.Customers, "", new { @class = "form-control" })
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6">
+                        <label>Район</label>
+                        <div>
+                            @Html.DropDownListFor(model => model.District, (SelectList) ViewBag.Districts, "", new { @class = "form-control" })
+                        </div>
+                    </div>
+                </div>
+
+                <br />
+
+                <div class="row">
+                    <div class="col-lg-12 col-md-12">
+                        <label>Комментарий клиента</label>
+                        <div>
+                            @Html.TextBoxFor(m => m.CustomerComment, new { @class = "form-control", placeholder = "Комментарий клиента", type = "text" })
+                        </div>
+                        </div>
+                    </div>
+
+                <br />
+                <br />
+                <br />
+
+                <div class="row">
+                    <div class="col-lg-6 col-md-6">
+                        <label class="control-label">Мастер</label>
+                        <div>
+                            @Html.DropDownListFor(model => model.Master, (SelectList) ViewBag.Masters, "", new { @class = "form-control" })
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-3">
+                        <label>Мастер прибыл</label>
+                        <div>
+                            @Html.CheckBoxFor(m => m.masterArrived, new { @class = "bs-checkbox", placeholder = "Мастер прибыл", type = "checkbox" })
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-3">
+                        <label>Дата взятия мастером</label>
+                        <div>
+                            @Html.TextBoxFor(m => m.takenDate, new { @class = "form-control", placeholder = "Дата взятия мастером", type = "date" })
+                        </div>
+                    </div>
+                </div>
+
+                <br />
+
+                <div class="row">
+                    <div class="col-lg-6 col-md-6">
+                        <label>Дата закрытия</label>
+                        <div>
+                            @Html.TextBoxFor(m => m.endDate, new { @class = "form-control", placeholder = "Дата закрытия", type = "date" })
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6">
+                        <label>Конечная сумма</label>
+                        <div>
+                            @Html.TextBoxFor(m => m.TotalAmount, new { @class = "form-control", placeholder = "Конечная сумма", type = "number" })
+                        </div>
+                    </div>
+                </div>
+
+                <br />
+
+                <div class="row">
+                    <div class="col-lg-12 col-md-12">
+                        <label>Комментарий мастера</label>
+                        <div>
+                            @Html.TextBoxFor(m => m.MasterComment, new { @class = "form-control", placeholder = "Комментарий мастера", type = "text" })
+                        </div>
+                    </div>
+                </div>
+
+                <dl class="dl-horizontal">
+
+                    @Html.ValidationSummary(true)
+                    @Html.HiddenFor(model => model.idOrders)
+
+                    @*<dt>Район</dt>
+                        <dd>@Html.DropDownListFor(model => model.district, (SelectList)ViewBag.Districts, "", new { @class = "form-control" })</dd>
+
+                        <br />
+
+                        <dt>Телефон</dt>
+                        <dd>@Html.TextBoxFor(m => m.phone, new { @class = "form-control", placeholder = "Введите телефон", type = "text" })</dd>
+
+                        <br />
+
+                        <dt>Публичный адрес</dt>
+                        <dd>@Html.TextBoxFor(m => m.publicAddress, new { @class = "form-control", placeholder = "Введите публичный адрес", type = "text" })</dd>
+
+                        <br />
+
+                        <dt>Приватный адрес</dt>
+                        <dd>@Html.TextBoxFor(m => m.privateAddress, new { @class = "form-control", placeholder = "Введите приватный адрес", type = "text" })</dd>*@
+
+
+                </dl>
+            </div>
+
+            <div class="modal-footer">
+                <button class="btn btn-default" type="button" data-dismiss="modal">Закрыть</button>
+                <button class="btn btn-primary" type="submit">Сохранить изменения</button>
+            </div>
+
+        </div>
+    </div>
+}

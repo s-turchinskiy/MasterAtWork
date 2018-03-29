@@ -1,0 +1,243 @@
+﻿@model List<WebEmployees.DepartmentNotModel>
+
+@{
+    ViewBag.Title = "Заголовок 1";
+
+}
+
+<div id="modDialog" class="modal fade">
+    <div id="dialogContent" class="modal-dialog modal-lg"></div>
+</div>
+
+<div id="HauptDiv" ng-app="MyApp" class="container-fluid">
+    <div ng-controller="homeCtrl">
+        <div class="fixed-table-toolbar">
+            <div class="bs-bars pull-left">
+                <div id="toolbar" class="btn-group">
+                    <button type="button" class="btn btn-default">
+                        <i class="glyphicon glyphicon-plus"> Добавить</i>
+                    </button>
+                    <button type="button" class="btn btn-default">
+                        <i class="glyphicon glyphicon-trash"> Удалить</i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <table ref="entry-grid" id="entry-grid" class="table table-hover table-no-bordered"
+               data-unique-id="idOrders"
+               @*data-show-toggle="true"*@
+               data-show-columns="true"
+               data-search="true"
+               data-filter-control="true"
+               data-click-to-select="true"
+               data-show-header="true">
+            <thead class='header' style="display:none">
+                <tr>
+                    <th data-field="state" data-checkbox="true"></th>
+                    <th data-field="orderNumber" data-sortable="true">№</th>
+                    <th data-field="formationDate" data-search="true" data-sortable="true">Дата создания</th>
+                    <th data-field="customerName" data-filter-control="select" data-sortable="true">Клиент</th>
+                    <th data-field="workTypeName" data-filter-control="select" data-sortable="true">Вид работы</th>
+                    <th data-field="statusName" data-filter-control="select">Статус</th>
+                    <th data-field="districtName" data-sortable="true"
+                        data-filter-control="select" data-visible="true">Район</th>
+                    <th data-field="InitialAmount" data-sortable="true">Нач.сумма</th>
+                    <th data-field="masterName" data-sortable="true" data-filter-control="select">Мастер</th>
+                    <th data-field="CustomerComment" data-sortable="true">Комментарий клиента</th>
+                    <th data-field="TotalAmount" data-sortable="true">Итог.сумма</th>
+                </tr>
+            </thead>
+        </table>
+    </div>
+</div>
+
+
+@section Scripts{
+    <script type="text/javascript">
+
+        var config = {
+            apiKey: "AIzaSyAh2NALeFdmJAZiKZY3t6IrPvABtj4_Usc",
+            authDomain: "mastersatwork-4776e.firebaseapp.com",
+            databaseURL: "https://mastersatwork-4776e.firebaseio.com",
+            projectId: "mastersatwork-4776e",
+            storageBucket: "mastersatwork-4776e.appspot.com",
+            messagingSenderId: "906680317141"
+        };
+        firebase.initializeApp(config);
+
+        var mastersRef = firebase.database().ref('masters/');
+        mastersRef.on('child_added', function (data) {
+            var mData = data.val();
+            $.get("http://149.126.103.38/MastersServices/hs/Root/UpdateMaster/", {
+                nameInEmail: mData.nameInEmail,
+                email: mData.email,
+                idFirebase: data.key
+            });
+        });
+
+        mastersRef.on('child_changed', function (data) {
+            var mData = data.val();
+            $.get("http://149.126.103.38/MastersServices/hs/Root/UpdateMaster/", {
+                nameInEmail: mData.nameInEmail,
+                email: mData.email,
+                idFirebase: data.key
+            });
+        });
+
+        var updateinmysqlRef = firebase.database().ref('updateinmysql/');
+        updateinmysqlRef.off();
+
+        updateinmysqlRef.on('child_added', function (data) {
+            var mData = data.val();
+            $.get("http://149.126.103.38/MastersServices/hs/Root/GetElement/", {
+                guid1C: data.key,
+                type: mData.type
+            }, function (dataElement) {
+                $.get(applicationPath + "Home/UpdateDataInMySQLSuccessfully/", {
+                    guid1C: data.key,
+                    type: mData.type,
+                    jsonData: dataElement
+                }, function (updateResult) {
+                    if (updateResult == 'True') {
+                        firebase.database().ref('updateinmysql/' + data.key).remove();
+                    }
+                });
+            });
+        });
+
+        updateinmysqlRef.on('child_changed', function (data) {
+            var mData = data.val();
+            $.get("http://149.126.103.38/MastersServices/hs/Root/GetElement/", {
+                guid1C: data.key,
+                type: mData.type
+            }, function (dataElement) {
+                $.get(applicationPath + "Home/UpdateDataInMySQLSuccessfully/", {
+                    guid1C: data.key,
+                    type: mData.type,
+                    jsonData: dataElement
+                }, function (updateResult) {
+                    if (updateResult == 'True') {
+                        firebase.database().ref('updateinmysql/' + data.key).remove();
+                    }
+                });
+            });
+        });
+
+
+        var ordersRef = firebase.database().ref('orders/');
+        ordersRef.off();
+        ordersRef.on('child_added', function (data) {
+            var mData = data.val();
+            $.get("http://149.126.103.38/MastersServices/hs/Root/UpdateOrder/", {
+                idOrders: data.key,
+                master: mData.master,
+                masterComment: mData.masterComment,
+                totalAmount: mData.totalAmount,
+                status: mData.status,
+                masterArrived: mData.masterArrived,
+                takenDate: mData.takenDate,
+                endDate: mData.endDate,
+                works: JSON.stringify(mData.works)
+            });
+        });
+
+        ordersRef.on('child_changed', function (data) {
+            var mData = data.val();
+            $.get("http://149.126.103.38/MastersServices/hs/Root/UpdateOrder/", {
+                idOrders: data.key,
+                master: mData.master,
+                masterComment: mData.masterComment,
+                totalAmount: mData.totalAmount,
+                status: mData.status,
+                masterArrived: mData.masterArrived,
+                takenDate: mData.takenDate,
+                endDate: mData.endDate,
+                works: JSON.stringify(mData.works)
+            });
+
+            //Если статус = в работе то удаляем у мастеров заказы
+            if (mData.status == 2)
+            {
+                mastersRef.on('child_added', item => {
+                    firebase.database().ref('masters/' + item.key + "/newOrders/" + data.key).remove();
+                });
+            }
+        });
+
+        ordersRef.on('child_removed', function (data) {
+            // существующий комментарий был удален, получаем снэпшот (data), берем оттуда ключ и обновляем пользовательский интерфейс
+            // deleteComment(postElement, data.key);
+        });
+
+        var $table = $('#entry-grid');
+        //нажатие на строку таблицы
+        $table.on('click', 'td', function (e) {
+            e.preventDefault();
+
+            var idElementAsString = $(this).closest('tr').data('uniqueid');
+            $.get(applicationPath + "Orders/OrderDetails/", {
+                idOrdersAsString: idElementAsString
+            }, function (data) {
+                $('#dialogContent').html(data);
+                $('#modDialog').modal('show');
+            });
+        });
+
+        //нажатие на кнопку добавить
+        $('.glyphicon-plus').on('click', function (e) {
+            e.preventDefault();
+
+            $.get(applicationPath + "Orders/OrderDetails/", {
+                idOrdersAsString: null
+            }, function (data) {
+                $('#dialogContent').html(data);
+                $('#modDialog').modal('show');
+            });
+        });
+
+        //удаление
+        $(function () {
+            $('.glyphicon-trash').click(function () {
+                var ids = $.map($table.bootstrapTable('getSelections'), function (row) {
+                    return row.idOrders;
+                });
+
+                $.get(applicationPath + "Home/RemoveElement/", {
+                    elementType: "orders",
+                    idElementAsString: JSON.stringify(ids),
+                }, function (removeResult) {
+                    if (removeResult = "True") {
+                        $table.bootstrapTable('remove', {
+                            field: 'idOrders',
+                            values: ids
+                        });
+                    }
+                });
+            });
+        });
+
+        $(document).ready(function () {
+            applicationPath = "@(Request.ApplicationPath == "/" ? "/" : Request.ApplicationPath + "/")";
+            $.ajax({
+                url: applicationPath + "Orders/GetOrders",
+                type: "POST",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                data: "{binaryString}",
+                processData: false,
+                success: function (data) {
+                    var template = $('#user-template').html();
+
+                    $('#entry-grid').bootstrapTable({
+                        data: data
+                    });
+                },
+                error: function (result) {
+                    alert("Ошибка получения данных");
+                }
+            });
+
+        })
+
+    </script>
+}

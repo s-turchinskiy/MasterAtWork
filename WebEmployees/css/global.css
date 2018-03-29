@@ -1,0 +1,124 @@
+﻿body {
+}
+
+.textForIDataFillingWindow {
+    text-align: center;
+    font-weight:bold;
+    font-size: 1.8vw;
+}
+
+.fontsize3vw {
+    font-size: 3.2vw; /* 3% of viewport width */
+    text-align: center;
+}
+
+.fontsizesmall {
+    font-size: 1.4vw;
+    text-align: center;
+}
+
+.fontsizemedium {
+    font-size: 1.8vw;
+    text-align: center;
+}
+
+.fontsize024 {
+    font-size: 6.4vw;
+    text-align: center;
+}
+
+.getbackground
+{
+    background-color: #c9e7eb;
+    margin:0;
+}
+
+.backgroundWhite
+{
+    background-color: white;
+}
+
+.imageSize25vmax
+{
+    width: 25vmax;
+    display: block;
+    margin: 0 auto; 
+}
+
+.imageSize20vmax
+{
+    width: 20vmax;
+    display: block;
+    margin: 0 auto; 
+}
+
+.imageSize15vmax
+{
+    /*display: block;
+    margin: 0 auto;*/ 
+}
+
+.paddingbottom1vw
+{
+     padding-bottom: 1vw;
+}
+
+.fontweightbold
+{
+    font-weight:bold;
+}
+
+.corners{
+ background:#c9e7eb; /* фон блока */
+ border: 5px #5788c0 solid; /* стили рамки */
+ -moz-border-radius: 65px; /* закругление для старых Mozilla Firefox */
+ -webkit-border-radius: 65px; /* закругл. для старых Chrome и Safari */
+ border-radius: 65px; /* закругление углов для всех, кто понимает */
+ padding: 10px; /* внутренние отступы */
+}
+
+.margin20
+{
+    padding:20px;
+}
+
+.imageByDivWidth
+{
+
+}
+
+.centerAlign
+{
+        margin: 0 auto;
+}
+
+div.block {
+    /*position:relative;*/
+    /*padding-bottom:10px;*/ 
+
+}
+
+div.block input {
+    /*position:absolute;*/
+    /*top:0;
+    left:0;*/
+    /*width:100%;
+    height:100%;*/
+    /*width: 28vh;
+    height:28vh;*/
+    /*padding:10px;*/
+
+    display: block;
+    padding:5px;
+}
+
+.root{
+    width: 100vw;
+    height:100vh;
+}
+
+.margin0
+{
+    margin:0;
+    padding:0;
+}

@@ -1,0 +1,86 @@
+﻿<!DOCTYPE html>
+<html lang="en" class="margin0">
+<style type="text/css">
+    .style-nowrap {
+        white-space: nowrap; /* Переносов в тексте нет */
+    }
+</style>
+
+<head>
+    <meta charset="utf-8" />
+    <title>@ViewBag.Title - Общий заголовок</title>
+    <meta name="viewport" content="width=device-width" />
+
+    @Styles.Render("~/Content/css")
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.11.1/bootstrap-table.css" crossorigin="anonymous">
+    @Scripts.Render("~/bundles/modernizr")
+
+    @Scripts.Render("~/bundles/jquery")
+    <script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.7/jquery.validate.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.11.1/bootstrap-table.min.js"></script>
+    <script type="text/javascript" language="javascript" src="~/Scripts/bootstrap-table-ru-RU.js"></script>
+    <script type="text/javascript" language="javascript" src="~/Scripts/bootstrap-table-filter.js"></script>
+    <script type="text/javascript" language="javascript" src="~/Scripts/bootstrap-table-filter-control.js"></script>
+    <script type="text/javascript" language="javascript" src="~/Scripts/knockout-3.4.2.js"></script>
+    <script type="text/javascript" language="javascript" src="~/Scripts/knockout.mapping-latest.js"></script>
+    <script type="text/javascript" language="javascript" src="~/Scripts/knockout-3.4.2.debug.js"></script>
+    <script src="@Url.Content("~/Scripts/perpetuum.knockout.js")" type="text/javascript"></script>
+    <script src="http://malsup.github.com/jquery.form.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/3.8.0/firebase.js"></script>
+    <script src="~/Scripts/myApp.js"></script>
+
+
+</head>
+
+<body>
+    <div id="body">
+        @RenderSection("featured", required: false)
+        <section class="content-wrapper main-content clear-fix">
+
+            @if (IsSectionDefined("Header1"))
+            {
+                //RenderSection("Header1");
+                <div></div>
+            }
+            else
+            {
+                <nav id="mynav" class="navbar navbar-default">
+                    <div class="container-fluid">
+                        <div class="navbar-header">
+                            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                                <span class="sr-only">Toggle navigation</span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                            </button>
+                            <a class="navbar-brand" href="../home/index">Заказы</a>
+                            <a class="navbar-brand" href="../home/works">Работы</a>
+                            <a class="navbar-brand" href="../home/masters">Мастера</a>
+                            <a class="navbar-brand" href="../home/customers">Заказчики</a>
+                            <a class="navbar-brand" href="../home/districts">Районы</a>
+                            <a class="navbar-brand" href="../home/worktypes">Виды работ</a>
+                        </div>
+
+                        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                            <ul class="nav navbar-nav navbar-right">
+                                <li><div id="RightNavbarGroup" class="fixed-table-toolbar"></div></li>
+                            </ul>
+                        </div>
+                    </div>
+                </nav>}
+
+            @RenderBody()
+        </section>
+    </div>
+
+
+    @RenderSection("scripts", required: false)
+</body>
+
+</html>
+
+

@@ -1,0 +1,32 @@
+﻿@model WebEmployees.worktypes
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+<div class="modal-content">
+    <div class="modal-header">
+        <button class="close" data-dismiss="modal" area-hidden="true">X</button>
+        <h4>Вид работы</h4>
+    </div>
+    <div class="modal-body">
+        <div class="container-fluid">
+            <dl class="dl-horizontal">
+
+                @Html.ValidationSummary(true)
+                @Html.HiddenFor(model => model.idWorkTypes)
+
+                <dt>Наименование</dt>
+                <dd>@Html.TextBoxFor(m => m.name, new { @class = "form-control", placeholder = "Введите наименование", type = "text" })</dd>  
+            </dl>
+        </div>
+
+        <div class="modal-footer">
+            <button class="btn btn-default" type="button" data-dismiss="modal">Закрыть</button>
+            <button class="btn btn-primary" type="submit">Сохранить изменения</button>
+        </div>
+
+    </div>
+</div>
+}

@@ -1,0 +1,222 @@
+﻿@using PerpetuumSoft.Knockout
+@model WebEmployees.MasterAndTable
+
+@{
+    var ko = Html.CreateKnockoutContext();
+}
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div id="myform" class="modal-content">
+        <div class="modal-header">
+            <button class="close" data-dismiss="modal" area-hidden="true">X</button>
+            <h4>Мастера</h4>
+        </div>
+        <div class="modal-body">
+            <div class="container-fluid">
+                @*<p>elements: @ko.Html.Span(m => m.districtsmasters.Count)</p>
+                    <p>elements: @ko.Html.Span(m => m.districts.Count)</p>
+                    <p>elements: @ko.Html.Span(m => @ko.Model.districts.Count)</p>*@
+
+                <dl class="dl-horizontal">
+
+                    @Html.ValidationSummary(true)
+                    @Html.HiddenFor(model => model.master.idMasters)
+
+                    @using (var itemMaster = ko.With(m => m.master))
+                    {
+                        <dt>Имя</dt>
+                        <dd>@ko.Html.TextBox(m => itemMaster.Model.name, new { @class = "form-control", placeholder = "Имя", type = "text" })</dd>
+
+                        <br />
+
+                        <dt>Email</dt>
+                        <dd>@ko.Html.TextBox(m => itemMaster.Model.email, new { @class = "form-control", placeholder = "Email", type = "text" })</dd>
+
+                        <br />
+
+                        <dt>Депозит</dt>
+                        <dd>@ko.Html.TextBox(m => itemMaster.Model.deposit, new { @class = "form-control", placeholder = "Депозит", type = "number" })</dd>
+
+                        <br />
+
+                        <dt>Имя в емейл</dt>
+                        <dd>@ko.Html.TextBox(m => itemMaster.Model.nameInMail, new { @class = "form-control", placeholder = "Имя в емейл", type = "text", disabled = "disabled" })</dd>
+
+                        <br />
+
+                        <dt>IdFirebase</dt>
+                        <dd>@ko.Html.TextBox(m => itemMaster.Model.IdFirebase, new { @class = "form-control", placeholder = "IdFirebase", type = "text", disabled = "disabled" })</dd>
+}
+                </dl>
+
+
+
+
+                @*@Html.EditorFor(m => m.districtsmasters)*@
+
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6">
+                            <table id="districtsmasters" class="table table-condensed">
+                                <thead>
+                                    <tr>
+                                        <th>Районы</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @*@{ foreach (var item in Model.districtsmasters as List<districtsmasters>)
+
+                                            {
+                                                Html.RenderPartial("districtsmasters", item);
+                                            }
+                                        }*@
+
+                                    @*@using (var items = ko.Foreach(m => m.districtsmasters))
+
+                                        {
+                                            Html.RenderPartial("districtsmasters", items);
+                                        }*@
+
+                                    @*@Html.EditorFor(m => m.districtsmasters)*@
+                                    @*@{ foreach (var item in Model.districtsmasters as List<districtsmasters>)*@
+
+                                    @{var count = 0; }
+                                    @using (var items = ko.Foreach(m => m.districtsmaster))
+                        {
+                            //count++;
+                                    <tr>
+                                        <td>
+                                            @items.Html.DropDownList(m => ko.Model.districtsId, new { @class = "form-control" },
+                               item => ko.Model.districts[item].name).Value(m => m.index).OptionsCaption("Выберите ...")
+                                        </td>
+
+                                        @*@lines.Html.DropDownList(
+                                            m => ko.Model.CategoriesId, null,
+                                            item => ko.Model.DataBase[item].Name).Value(m => m.CategoryId).OptionsCaption("Select ...")*@
+
+
+                                        @*<td><select @items.Bind.Options(m => m.districts).OptionsValue("'iddistricts'").OptionsText("'name'").Value(item => item.district)></select></td>*@
+                                        @**@
+                                        @*<td>@Html.DropDownList("sic" + count.ToString(), (SelectList) ViewBag.Districts, new { id = "sic" + count.ToString(), data_bind = "options: Districts, optionsText: 'name', optionsValue: 'iddistricts'" })</td>*@
+
+                                        @*<td><select class="span8 dropdown" data-bind="options: $parent.districts, optionsText: 'name', optionsValue:'iddistricts', value: $parent.district"></select></td>*@
+                                        <td>@ko.Html.Button("Удалить", "RemoveDistrictMaster", "Home", new { index = items.GetIndex() }, new { @class = "btnDelete btn btn-default" })</td>
+                                    </tr>
+}
+                                </tbody>
+                            </table>
+                            @ko.Html.Button("Добавить", "AddDistrictMaster", "Home", null, new { @class = "btn btn-default" })
+                        </div>
+
+                        <div class="col-lg-6 col-md-6">
+                            <table id="worktypesmasters" class="table table-condensed">
+                                <thead>
+                                    <tr>
+                                        <th>Виды работ</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                    @using (var items = ko.Foreach(m => m.worktypesmaster))
+                                    {
+                                        <tr>
+                                            <td>
+                                                @items.Html.DropDownList(m => ko.Model.worktypesId, new { @class = "form-control" },
+                               item => ko.Model.worktypes[item].name).Value(m => m.index).OptionsCaption("Выберите ...")
+                                            </td>
+
+                                            <td>@ko.Html.Button("Удалить", "RemoveWorktypeMaster", "Home", new { index = items.GetIndex() }, new { @class = "btnDelete btn btn-default" })</td>
+                                        </tr>
+}
+                                </tbody>
+                            </table>
+                            @ko.Html.Button("Добавить", "AddWorktypeMaster", "Home", null, new { @class = "btn btn-default" })
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+
+            <div class="modal-footer">
+                <button id="btnClose" class="btn btn-primary" type="submit" style="visibility:hidden">Программное сохранение</button>
+                <button id="Cross" class="btn btn-default" type="button" data-dismiss="modal">Закрыть</button>
+                <button class="btn btn-primary btnTest">Сохранить изменения</button>
+                @*@ko.Html.Button("Сохранить изменения", "SaveMaster", "Home", @ko.Bind.Submit("SaveMaster", "Home", new { model = ko.Model }), new { @class = "btn btn-primary", @type = "submit" })*@
+                @*@ko.Bind.Submit("SaveMaster", "Home")*@
+            </div>
+
+        </div>
+
+        <script type="text/javascript" language="javascript" src="~/Scripts/knockout-3.4.2.js"></script>
+        <script type="text/javascript" language="javascript" src="~/Scripts/knockout.mapping-latest.js"></script>
+        <script>
+            function sleep(ms) {
+                ms += new Date().getTime();
+                while (new Date() < ms) { }
+            }
+
+            $(document).ready(function () {
+
+                function updateData() {
+                    @ko.ServerAction("SaveMaster", "Home");
+                }
+
+                $('.btnTest').on('click', function (e) {
+                    e.preventDefault();
+
+                    //var hidePopup = $(e.target.parentElement).attr('id');
+                    //$('#' + hidePopup).modal('hide');
+
+                    //console.log("1" + new Date());
+
+                    $.when( @ko.ServerAction("SaveMaster", "Home")).done(function () {
+                        //console.log("3" + new Date());
+                        //ko.cleanNode($('myform')[0]);
+                        $("#btnClose").trigger('click');
+                    });
+
+                    //console.log("4" + new Date());
+                    //sleep(13000);
+
+                    @*applicationPath = "@(Request.ApplicationPath == "/" ? "/" : Request.ApplicationPath + "/")";
+                    $.get(applicationPath + "Home/SaveMaster/", {
+                        model: ko.Model
+                    }, function (data) {
+                        this.modal('hide');
+                    });*@
+                });
+
+                //$('.btnDelete').click(function () {
+                //    var str = $(this).closest('tr');
+                //    str.remove();
+                //});
+
+                @*$('.btnAdd').click(function () {
+                    applicationPath = "@(Request.ApplicationPath == "/" ? "/" : Request.ApplicationPath + "/")";
+                    $.ajax({
+                        url: applicationPath + "Home/AddNewDistrictsMasters",
+                        cache: false,
+                        success: function (html) { $("#districtsmasters").append(html); }
+                    });
+                    return false;
+                });*@
+            });
+        </script>
+
+        <script type="text/javascript">
+
+            @*@ko.Initialize(Model);
+            viewModel.someProperty = someValue;*@
+
+            $("#myform").ajaxForm();
+            $("#myform").validate({ submitHandler: function () { @ko.ServerAction("Save", "Home"); } });
+        </script>
+
+
+    </div>
+                                        }
+
+@ko.Apply(Model)

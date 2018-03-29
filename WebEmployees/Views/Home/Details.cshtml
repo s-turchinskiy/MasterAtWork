@@ -1,0 +1,117 @@
+﻿@model WebEmployees.orders
+
+
+<div class="modal-content">
+    <div class="modal-header">
+        <button class="close" data-dismiss="modal" area-hidden="true">X</button>
+        <h4>Заказ</h4>
+    </div>
+    <div class="modal-body">
+
+        <dl class="dl-horizontal">
+            <dt>Мастер</dt>
+            <dd>@Html.DropDownListFor(model => model.Master, (SelectList) ViewBag.Masters, "", new { @class = "form-control" })</dd>
+        </dl>
+
+            @*<img src="@Url.Content(Model.PathToImage)" />*@
+            @*<img src="@imgSrc" />
+            <hr />
+            <dl class="dl-horizontal">
+
+                <dt>Фамилия</dt>
+                <dd>@Html.DisplayFor(model => model.LastName)</dd>
+
+                <dt>Имя</dt>
+                <dd>@Html.DisplayFor(model => model.FirstName)</dd>
+
+                <dt>Отчество</dt>
+                <dd>@Html.DisplayFor(model => model.MiddleName)</dd>
+
+                <dt>Организация</dt>
+                <dd>@Html.DisplayFor(model => model.OrganizationName)</dd>
+
+                <dt>Дивизион</dt>
+                <dd>@Html.DisplayFor(model => model.DivizionName)</dd>
+
+                <dt>Блок</dt>
+                <dd>@Html.DisplayFor(model => model.BlockName)</dd>
+
+                <dt>Подразделение</dt>
+                <dd>@Html.DisplayFor(model => model.DepartmentName)</dd>
+
+                <dt>Должность</dt>
+                <dd>@Html.DisplayFor(model => model.PositionName)</dd>
+                <dt>
+                    Офис
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Office)
+                </dd>
+
+                <dt>
+                    Этаж
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Floor)
+                </dd>
+
+                <dt>
+                    Кабинет-секция
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Room)
+                </dd>
+
+                <dt>
+                    Код
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Code)
+                </dd>
+
+                <dt>Дата рождения</dt>
+                <dd>@Html.DisplayFor(model => model.Birthday)</dd>
+
+                <dt>Знак зодиака</dt>
+                <dd>@Html.DisplayFor(model => model.ZodiacSign)</dd>
+            </dl>
+
+            <hr />
+
+            <h4>Телефоны</h4>
+            <dl class="dl-horizontal">
+
+                @foreach (var item in Model.Phones)
+                {
+                    <dd> @item</dd>
+
+                }
+
+            </dl>*@
+
+
+</div>
+</div>
+@*<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.IDEmployee }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>*@
+
+@section Scripts{
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.11.1/bootstrap-table.min.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/3.8.0/firebase.js"></script>
+    <script type="text/javascript" language="javascript" src="~/Scripts/bootstrap.js"></script>
+    <script type="text/javascript" language="javascript" src="~/Scripts/bootstrap-table.js"></script>
+    <script type="text/javascript" language="javascript" src="~/Scripts/bootstrap-table-ru-RU.js"></script>
+    <script type="text/javascript" language="javascript" src="~/Scripts/bootstrap-table-filter.js"></script>
+    <script type="text/javascript" language="javascript" src="~/Scripts/bootstrap-table-filter-control.js"></script>
+<script type="text/javascript">
+    var mm = 5;
+    alert("444444");
+    </script>
+}

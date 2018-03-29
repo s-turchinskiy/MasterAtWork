@@ -1,0 +1,250 @@
+﻿@using PerpetuumSoft.Knockout
+
+@model WebEmployees.OrderAndTable
+
+@{
+    var ko = Html.CreateKnockoutContext();
+}
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="modal-content">
+        <div class="modal-header">
+            <button class="close" data-dismiss="modal" area-hidden="true">X</button>
+            <h4>Заказ</h4>
+        </div>
+        <div class="modal-body">
+            <div class="container-fluid">
+                @using (var itemOrder = ko.With(m => m.order))
+                {
+                    <div class="row">
+                        <div class="col-lg-3 col-md-3">
+                            <label class="control-label" for="inputWarning">Номер</label>
+                            <div>
+                                @Html.TextBoxFor(m => m.order.orderNumber, new
+                           {
+                               @class = "form-control",
+                               placeholder = "Номер",
+                               type = "text"@*, disabled = "disabled"*@ })
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-3">
+                            <label>Дата</label>
+                            <div>
+                                @Html.TextBoxFor(m => m.order.formationDate, new
+                           {
+                               @class = "form-control",
+                               placeholder = "Дата",
+                               type = "date"@*, disabled = "disabled"*@ })
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-6">
+                            <label>Статус</label>
+                            <div>
+                                @Html.DropDownListFor(m => m.order.status, (SelectList) ViewBag.Statuses, "", new { @class = "form-control" })
+                            </div>
+                        </div>
+                    </div>
+
+                    <br />
+
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6">
+                            <label>Вид работы</label>
+                            <div>
+                                @Html.DropDownListFor(m => m.order.workType, (SelectList) ViewBag.WorkTypes, "", new { @class = "form-control" })
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-6">
+                            <label>Начальная сумма</label>
+                            <div>
+                                @Html.TextBoxFor(m => m.order.InitialAmount, new { @class = "form-control", placeholder = "Начальная сумма", type = "number" })
+                            </div>
+                        </div>
+                    </div>
+
+                    <br />
+
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6">
+                            <label>Клиент</label>
+                            <div>
+                                @Html.DropDownListFor(m => m.order.Customer, (SelectList) ViewBag.Customers, "", new { @class = "form-control" })
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-6">
+                            <label>Район</label>
+                            <div>
+                                @Html.DropDownListFor(m => m.order.District, (SelectList) ViewBag.Districts, "", new { @class = "form-control" })
+                            </div>
+                        </div>
+                    </div>
+
+                    <br />
+
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12">
+                            <label>Комментарий клиента</label>
+                            <div>
+                                @Html.TextBoxFor(m => m.order.CustomerComment, new { @class = "form-control", placeholder = "Комментарий клиента", type = "text" })
+                            </div>
+                        </div>
+                    </div>
+
+                    <br />
+
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12">
+                                <table id="worktypesmasters" class="table table-condensed">
+                                    <thead>
+                                        <tr>
+                                            <th>Работы</th>
+                                            <th>Кол-во</th>
+                                            <th>Цена</th>
+                                            <th>Стоимость</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+
+                                        @using (var items = ko.Foreach(m => m.worksorder))
+                                        {
+                                            <tr>
+                                                <td>
+                                                    @items.Html.DropDownList(m => ko.Model.worksId, new { @class = "form-control" },
+                                                    item => ko.Model.works[item].name).Value(m => m.index).OptionsCaption("Выберите ...")
+                                                </td>
+                                                <td>@items.Html.TextBox(m => m.quantity, new { @class = "form-control", placeholder = "Кол-во", type = "number" })</td>
+                                                
+                                                @using (items.If(m => m.index != null))
+                                                {
+                                                    using (var work = items.With(m => ko.Model.works[(int) m.index]))
+                                                    {
+                                                        <td>@work.Html.TextBox(m => m.Price, new { @class = "form-control", placeholder = "Цена", type = "number" })</td>
+                                                        <td>@work.Html.TextBox(m => (items.Model.quantity * m.Price), new { @class = "form-control", placeholder = "Сумма", type = "number" })</td>
+}
+                                                }
+
+
+                                                @*<td>@items.Html.TextBox(m => m.amount, new { @class = "form-control", placeholder = "Сумма", type = "number" })</td>*@
+
+                                                <td>@ko.Html.Button("Удалить", "Orders", "Masters", new { index = items.GetIndex() }, new { @class = "btnDelete btn btn-default" })</td>
+                                            </tr>
+}
+                                    </tbody>
+                                </table>
+                                @ko.Html.Button("Добавить", "AddWorkOrder", "Orders", null, new { @class = "btn btn-default" })
+                            </div>
+                        </div>
+                    </div>
+
+                    <br />
+
+
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6">
+                            <label class="control-label">Мастер</label>
+                            <div>
+                                @Html.DropDownListFor(m => m.order.Master, (SelectList) ViewBag.Masters, "", new { @class = "form-control" })
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-3">
+                            <label>Мастер прибыл</label>
+                            <div>
+                                @Html.CheckBoxFor(m => m.order.masterArrived, new { @class = "bs-checkbox", placeholder = "Мастер прибыл", type = "checkbox" })
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-3">
+                            <label>Дата взятия мастером</label>
+                            <div>
+                                @Html.TextBoxFor(m => m.order.takenDate, new { @class = "form-control", placeholder = "Дата взятия мастером", type = "date" })
+                            </div>
+                        </div>
+                    </div>
+
+                    <br />
+
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6">
+                            <label>Дата закрытия</label>
+                            <div>
+                                @Html.TextBoxFor(m => m.order.endDate, new { @class = "form-control", placeholder = "Дата закрытия", type = "date" })
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-6">
+                            <label>Конечная сумма</label>
+                            <div>
+                                @Html.TextBoxFor(m => m.order.TotalAmount, new { @class = "form-control", placeholder = "Конечная сумма", type = "number" })
+                            </div>
+                        </div>
+                    </div>
+
+                    <br />
+
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12">
+                            <label>Комментарий мастера</label>
+                            <div>
+                                @Html.TextBoxFor(m => m.order.MasterComment, new { @class = "form-control", placeholder = "Комментарий мастера", type = "text" })
+                            </div>
+                        </div>
+                    </div>
+
+                    <dl class="dl-horizontal">
+
+                        @Html.ValidationSummary(true)
+                        @Html.HiddenFor(model => model.order.idOrders)
+
+                        @*<dt>Район</dt>
+                            <dd>@Html.DropDownListFor(model => model.district, (SelectList)ViewBag.Districts, "", new { @class = "form-control" })</dd>
+
+                            <br />
+
+                            <dt>Телефон</dt>
+                            <dd>@Html.TextBoxFor(m => m.phone, new { @class = "form-control", placeholder = "Введите телефон", type = "text" })</dd>
+
+                            <br />
+
+                            <dt>Публичный адрес</dt>
+                            <dd>@Html.TextBoxFor(m => m.publicAddress, new { @class = "form-control", placeholder = "Введите публичный адрес", type = "text" })</dd>
+
+                            <br />
+
+                            <dt>Приватный адрес</dt>
+                            <dd>@Html.TextBoxFor(m => m.privateAddress, new { @class = "form-control", placeholder = "Введите приватный адрес", type = "text" })</dd>*@
+
+
+                    </dl>
+}
+            </div>
+
+            <div class="modal-footer">
+                <button id="btnClose" class="btn btn-primary" type="submit" style="visibility:hidden">Программное сохранение</button>
+                <button class="btn btn-default" type="button" data-dismiss="modal">Закрыть</button>
+                <button class="btn btn-primary btnTest">Сохранить изменения</button>
+                @*<button class="btn btn-primary" type="submit">Сохранить изменения</button>*@
+            </div>
+
+        </div>
+
+        <script type="text/javascript" language="javascript" src="~/Scripts/knockout-3.4.2.js"></script>
+        <script type="text/javascript" language="javascript" src="~/Scripts/knockout.mapping-latest.js"></script>
+        <script>
+            $(document).ready(function () {
+
+                $('.btnTest').on('click', function (e) {
+                    e.preventDefault();
+
+                    $.when( @ko.ServerAction("SaveOrder", "Orders")).done(function () {
+                        $("#btnClose").trigger('click');
+                    });
+                });
+            });
+        </script>
+    </div>
+}
+
+@ko.Apply(Model)

@@ -1,0 +1,408 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="positivepsychologydatabaseModel.Store" Provider="MySql.Data.MySqlClient" ProviderManifestToken="5.7" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="canceledorders">
+          <Key>
+            <PropertyRef Name="idCanceledOrders" />
+          </Key>
+          <Property Name="idCanceledOrders" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Order" Type="guid" Nullable="false" />
+          <Property Name="Master" Type="guid" Nullable="false" />
+          <Property Name="takenDate" Type="datetime" Precision="0" Nullable="false" />
+          <Property Name="canceledDate" Type="datetime" Precision="0" Nullable="false" />
+          <Property Name="masterComment" Type="varchar" MaxLength="300" />
+        </EntityType>
+        <EntityType Name="customers">
+          <Key>
+            <PropertyRef Name="idcustomers" />
+          </Key>
+          <Property Name="idcustomers" Type="guid" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="publicAddress" Type="varchar" MaxLength="200" />
+          <Property Name="privateAddress" Type="varchar" MaxLength="50" />
+          <Property Name="phone" Type="varchar" MaxLength="50" />
+          <Property Name="district" Type="guid" />
+        </EntityType>
+        <EntityType Name="districts">
+          <Key>
+            <PropertyRef Name="iddistricts" />
+          </Key>
+          <Property Name="iddistricts" Type="guid" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="districtsmasters">
+          <Key>
+            <PropertyRef Name="master" />
+            <PropertyRef Name="district" />
+          </Key>
+          <Property Name="master" Type="guid" Nullable="false" />
+          <Property Name="district" Type="guid" Nullable="false" />
+          <Property Name="priority" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="masters">
+          <Key>
+            <PropertyRef Name="idMasters" />
+          </Key>
+          <Property Name="idMasters" Type="guid" Nullable="false" />
+          <Property Name="email" Type="varchar" MaxLength="50" />
+          <Property Name="nameInMail" Type="varchar" MaxLength="100" />
+          <Property Name="name" Type="varchar" MaxLength="100" />
+          <Property Name="IdFirebase" Type="varchar" MaxLength="36" />
+          <Property Name="deposit" Type="int" />
+        </EntityType>
+        <EntityType Name="orders">
+          <Key>
+            <PropertyRef Name="idOrders" />
+          </Key>
+          <Property Name="idOrders" Type="guid" Nullable="false" />
+          <Property Name="Customer" Type="guid" Nullable="false" />
+          <Property Name="Work" Type="guid" Nullable="false" />
+          <Property Name="InitialAmount" Type="int" Nullable="false" />
+          <Property Name="CustomerComment" Type="varchar" MaxLength="300" />
+          <Property Name="TotalAmount" Type="int" />
+          <Property Name="MasterComment" Type="varchar" MaxLength="300" />
+          <Property Name="formationDate" Type="datetime" Precision="0" />
+          <Property Name="takenDate" Type="datetime" Precision="0" />
+          <Property Name="endDate" Type="datetime" Precision="0" />
+          <Property Name="status" Type="int" />
+          <Property Name="Master" Type="guid" />
+          <Property Name="District" Type="guid" />
+          <Property Name="orderNumber" Type="varchar" MaxLength="9" />
+          <Property Name="workType" Type="guid" />
+          <Property Name="masterArrived" Type="bool" Nullable="false" />
+        </EntityType>
+        <EntityType Name="status">
+          <Key>
+            <PropertyRef Name="idstatus" />
+          </Key>
+          <Property Name="idstatus" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="45" />
+        </EntityType>
+        <EntityType Name="works">
+          <Key>
+            <PropertyRef Name="idWorks" />
+          </Key>
+          <Property Name="idWorks" Type="guid" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="Price" Type="int" />
+        </EntityType>
+        <EntityType Name="worksorders">
+          <Key>
+            <PropertyRef Name="work" />
+            <PropertyRef Name="order" />
+          </Key>
+          <Property Name="work" Type="guid" Nullable="false" />
+          <Property Name="order" Type="guid" Nullable="false" />
+          <Property Name="quantity" Type="int" Nullable="false" />
+          <Property Name="amount" Type="int" Nullable="false" />
+          <Property Name="price" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="worktypes">
+          <Key>
+            <PropertyRef Name="idWorkTypes" />
+          </Key>
+          <Property Name="idWorkTypes" Type="guid" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <EntityType Name="worktypesmasters">
+          <Key>
+            <PropertyRef Name="worktype" />
+            <PropertyRef Name="master" />
+          </Key>
+          <Property Name="worktype" Type="guid" Nullable="false" />
+          <Property Name="master" Type="guid" Nullable="false" />
+        </EntityType>
+        <EntityContainer Name="positivepsychologydatabaseModelStoreContainer">
+          <EntitySet Name="canceledorders" EntityType="Self.canceledorders" Schema="mastersservices" store:Type="Tables" />
+          <EntitySet Name="customers" EntityType="Self.customers" Schema="mastersservices" store:Type="Tables" />
+          <EntitySet Name="districts" EntityType="Self.districts" Schema="mastersservices" store:Type="Tables" />
+          <EntitySet Name="districtsmasters" EntityType="Self.districtsmasters" Schema="mastersservices" store:Type="Tables" />
+          <EntitySet Name="masters" EntityType="Self.masters" Schema="mastersservices" store:Type="Tables" />
+          <EntitySet Name="orders" EntityType="Self.orders" Schema="mastersservices" store:Type="Tables" />
+          <EntitySet Name="status" EntityType="Self.status" Schema="mastersservices" store:Type="Tables" />
+          <EntitySet Name="works" EntityType="Self.works" Schema="mastersservices" store:Type="Tables" />
+          <EntitySet Name="worksorders" EntityType="Self.worksorders" Schema="mastersservices" store:Type="Tables" />
+          <EntitySet Name="worktypes" EntityType="Self.worktypes" Schema="mastersservices" store:Type="Tables" />
+          <EntitySet Name="worktypesmasters" EntityType="Self.worktypesmasters" Schema="mastersservices" store:Type="Tables" />
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="positivepsychologydatabaseModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="MySQLEntities" annotation:LazyLoadingEnabled="true" >
+          <EntitySet Name="canceledorders" EntityType="positivepsychologydatabaseModel.canceledorders" />
+          <EntitySet Name="customers" EntityType="positivepsychologydatabaseModel.customers" />
+          <EntitySet Name="districts" EntityType="positivepsychologydatabaseModel.districts" />
+          <EntitySet Name="masters" EntityType="positivepsychologydatabaseModel.masters" />
+          <EntitySet Name="orders" EntityType="positivepsychologydatabaseModel.orders" />
+          <EntitySet Name="status" EntityType="positivepsychologydatabaseModel.status" />
+          <EntitySet Name="districtsmasters" EntityType="positivepsychologydatabaseModel.districtsmasters" />
+          <EntitySet Name="worksorders" EntityType="positivepsychologydatabaseModel.worksorders" />
+          <EntitySet Name="worktypes" EntityType="positivepsychologydatabaseModel.worktypes" />
+          <EntitySet Name="worktypesmasters" EntityType="positivepsychologydatabaseModel.worktypesmasters" />
+          <EntitySet Name="works" EntityType="positivepsychologydatabaseModel.works" />
+        </EntityContainer>
+        <EntityType Name="canceledorders">
+          <Key>
+            <PropertyRef Name="idCanceledOrders" />
+          </Key>
+          <Property Name="idCanceledOrders" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Order" Type="Guid" Nullable="false" />
+          <Property Name="Master" Type="Guid" Nullable="false" />
+          <Property Name="takenDate" Type="DateTime" Nullable="false" />
+          <Property Name="canceledDate" Type="DateTime" Nullable="false" />
+          <Property Name="masterComment" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="customers">
+          <Key>
+            <PropertyRef Name="idcustomers" />
+          </Key>
+          <Property Name="idcustomers" Type="Guid" Nullable="false" />
+          <Property Name="name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="publicAddress" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="privateAddress" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="phone" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="district" Type="Guid" />
+        </EntityType>
+        <EntityType Name="districts">
+          <Key>
+            <PropertyRef Name="iddistricts" />
+          </Key>
+          <Property Name="iddistricts" Type="Guid" Nullable="false" />
+          <Property Name="name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="masters">
+          <Key>
+            <PropertyRef Name="idMasters" />
+          </Key>
+          <Property Name="idMasters" Type="Guid" Nullable="false" />
+          <Property Name="email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="nameInMail" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="IdFirebase" Type="String" MaxLength="36" FixedLength="false" Unicode="false" />
+          <Property Name="deposit" Type="Int32" />
+        </EntityType>
+        <EntityType Name="orders">
+          <Key>
+            <PropertyRef Name="idOrders" />
+          </Key>
+          <Property Name="idOrders" Type="Guid" Nullable="false" />
+          <Property Name="Customer" Type="Guid" Nullable="false" />
+          <Property Name="Work" Type="Guid" Nullable="false" />
+          <Property Name="InitialAmount" Type="Int32" Nullable="false" />
+          <Property Name="CustomerComment" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
+          <Property Name="TotalAmount" Type="Int32" />
+          <Property Name="MasterComment" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
+          <Property Name="formationDate" Type="DateTime" />
+          <Property Name="takenDate" Type="DateTime" />
+          <Property Name="endDate" Type="DateTime" />
+          <Property Name="status" Type="Int32" />
+          <Property Name="Master" Type="Guid" />
+          <Property Name="District" Type="Guid" />
+          <Property Name="orderNumber" Type="String" MaxLength="9" FixedLength="false" Unicode="false" />
+          <Property Name="workType" Type="Guid" />
+          <Property Name="masterArrived" Type="Boolean" Nullable="false"/>
+        </EntityType>
+        <EntityType Name="status">
+          <Key>
+            <PropertyRef Name="idstatus" />
+          </Key>
+          <Property Name="idstatus" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="districtsmasters">
+          <Key>
+            <PropertyRef Name="master" />
+            <PropertyRef Name="district" />
+          </Key>
+          <Property Name="master" Type="Guid" Nullable="false" />
+          <Property Name="district" Type="Guid" Nullable="false" />
+          <Property Name="priority" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="worksorders">
+          <Key>
+            <PropertyRef Name="work" />
+            <PropertyRef Name="order" />
+          </Key>
+          <Property Name="work" Type="Guid" Nullable="false" />
+          <Property Name="order" Type="Guid" Nullable="false" />
+          <Property Name="quantity" Type="Int32" Nullable="false" />
+          <Property Name="amount" Type="Int32" Nullable="false" />
+          <Property Name="price" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="worktypes">
+          <Key>
+            <PropertyRef Name="idWorkTypes" />
+          </Key>
+          <Property Name="idWorkTypes" Type="Guid" Nullable="false" />
+          <Property Name="name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="worktypesmasters">
+          <Key>
+            <PropertyRef Name="worktype" />
+            <PropertyRef Name="master" />
+          </Key>
+          <Property Name="worktype" Type="Guid" Nullable="false" />
+          <Property Name="master" Type="Guid" Nullable="false" />
+        </EntityType>
+        <EntityType Name="works">
+          <Key>
+            <PropertyRef Name="idWorks" />
+          </Key>
+          <Property Name="idWorks" Type="Guid" Nullable="false" />
+          <Property Name="name" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="Price" Type="Int32" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="positivepsychologydatabaseModelStoreContainer" CdmEntityContainer="MySQLEntities" >
+          <EntitySetMapping Name="canceledorders">
+            <EntityTypeMapping TypeName="positivepsychologydatabaseModel.canceledorders">
+              <MappingFragment StoreEntitySet="canceledorders">
+                <ScalarProperty Name="masterComment" ColumnName="masterComment" />
+                <ScalarProperty Name="canceledDate" ColumnName="canceledDate" />
+                <ScalarProperty Name="takenDate" ColumnName="takenDate" />
+                <ScalarProperty Name="Master" ColumnName="Master" />
+                <ScalarProperty Name="Order" ColumnName="Order" />
+                <ScalarProperty Name="idCanceledOrders" ColumnName="idCanceledOrders" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="customers">
+            <EntityTypeMapping TypeName="positivepsychologydatabaseModel.customers">
+              <MappingFragment StoreEntitySet="customers">
+                <ScalarProperty Name="district" ColumnName="district" />
+                <ScalarProperty Name="phone" ColumnName="phone" />
+                <ScalarProperty Name="privateAddress" ColumnName="privateAddress" />
+                <ScalarProperty Name="publicAddress" ColumnName="publicAddress" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="idcustomers" ColumnName="idcustomers" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="districts">
+            <EntityTypeMapping TypeName="positivepsychologydatabaseModel.districts">
+              <MappingFragment StoreEntitySet="districts">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="iddistricts" ColumnName="iddistricts" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="masters">
+            <EntityTypeMapping TypeName="positivepsychologydatabaseModel.masters">
+              <MappingFragment StoreEntitySet="masters">
+                <ScalarProperty Name="deposit" ColumnName="deposit" />
+                <ScalarProperty Name="IdFirebase" ColumnName="IdFirebase" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="nameInMail" ColumnName="nameInMail" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="idMasters" ColumnName="idMasters" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="orders">
+            <EntityTypeMapping TypeName="positivepsychologydatabaseModel.orders">
+              <MappingFragment StoreEntitySet="orders">
+                <ScalarProperty Name="masterArrived" ColumnName="masterArrived" />
+                <ScalarProperty Name="workType" ColumnName="workType" />
+                <ScalarProperty Name="orderNumber" ColumnName="orderNumber" />
+                <ScalarProperty Name="District" ColumnName="District" />
+                <ScalarProperty Name="Master" ColumnName="Master" />
+                <ScalarProperty Name="status" ColumnName="status" />
+                <ScalarProperty Name="endDate" ColumnName="endDate" />
+                <ScalarProperty Name="takenDate" ColumnName="takenDate" />
+                <ScalarProperty Name="formationDate" ColumnName="formationDate" />
+                <ScalarProperty Name="MasterComment" ColumnName="MasterComment" />
+                <ScalarProperty Name="TotalAmount" ColumnName="TotalAmount" />
+                <ScalarProperty Name="CustomerComment" ColumnName="CustomerComment" />
+                <ScalarProperty Name="InitialAmount" ColumnName="InitialAmount" />
+                <ScalarProperty Name="Work" ColumnName="Work" />
+                <ScalarProperty Name="Customer" ColumnName="Customer" />
+                <ScalarProperty Name="idOrders" ColumnName="idOrders" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="status">
+            <EntityTypeMapping TypeName="positivepsychologydatabaseModel.status">
+              <MappingFragment StoreEntitySet="status">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="idstatus" ColumnName="idstatus" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="districtsmasters">
+            <EntityTypeMapping TypeName="positivepsychologydatabaseModel.districtsmasters">
+              <MappingFragment StoreEntitySet="districtsmasters">
+                <ScalarProperty Name="priority" ColumnName="priority" />
+                <ScalarProperty Name="district" ColumnName="district" />
+                <ScalarProperty Name="master" ColumnName="master" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="worksorders">
+            <EntityTypeMapping TypeName="positivepsychologydatabaseModel.worksorders">
+              <MappingFragment StoreEntitySet="worksorders">
+                <ScalarProperty Name="price" ColumnName="price" />
+                <ScalarProperty Name="amount" ColumnName="amount" />
+                <ScalarProperty Name="quantity" ColumnName="quantity" />
+                <ScalarProperty Name="order" ColumnName="order" />
+                <ScalarProperty Name="work" ColumnName="work" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="worktypes">
+            <EntityTypeMapping TypeName="positivepsychologydatabaseModel.worktypes">
+              <MappingFragment StoreEntitySet="worktypes">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="idWorkTypes" ColumnName="idWorkTypes" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="worktypesmasters">
+            <EntityTypeMapping TypeName="positivepsychologydatabaseModel.worktypesmasters">
+              <MappingFragment StoreEntitySet="worktypesmasters">
+                <ScalarProperty Name="master" ColumnName="master" />
+                <ScalarProperty Name="worktype" ColumnName="worktype" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="works">
+            <EntityTypeMapping TypeName="positivepsychologydatabaseModel.works">
+              <MappingFragment StoreEntitySet="works">
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="idWorks" ColumnName="idWorks" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

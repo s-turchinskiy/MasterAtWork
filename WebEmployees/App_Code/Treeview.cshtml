@@ -1,0 +1,25 @@
+﻿@helper GetTreeView(List<WebEmployees.DepartmentNotModel> department, Guid parentID)
+{
+    foreach (var i in department.Where(a => a.Parent.Equals(parentID)))
+    {
+        <li>
+            @{var submenu = department.Where(a => a.Parent.Equals(i.IDDepartment)).Count();}
+            @if (submenu > 0)
+	        {
+		        <span class="collapse collapsible">&nbsp;</span>
+	        }
+            else
+	        {
+                <span style="width:15px; display:inline-block">&nbsp;</span>
+	        }
+            <span class="treeItem">@i.Name</span>   
+            @if (submenu > 0)
+	        {
+                <ul>
+                    @Treeview.GetTreeView(department, i.IDDepartment) 
+                    @* Recursive  Call for Populate Sub items here*@
+                </ul>
+	        }
+        </li>
+    }
+}
